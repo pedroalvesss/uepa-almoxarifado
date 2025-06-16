@@ -1,13 +1,17 @@
 import { Dialog } from "@/components/Dialog";
 import { Button } from "@/components/ui/button";
-import { deleteProduto } from "@/services/produtos-service";
 import { Produto } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Trash2 } from "lucide-react";
 import { redirect } from "next/navigation";
-import { toast } from "sonner";
 
-export function produtosTableColumns(): ColumnDef<Produto | undefined>[] {
+interface produtosTableColumnsProps {
+  handleDeleteProduto: (id: number) => Promise<void>;
+}
+
+export function produtosTableColumns({
+  handleDeleteProduto,
+}: produtosTableColumnsProps): ColumnDef<Produto | undefined>[] {
   return [
     {
       accessorKey: "id",
@@ -85,12 +89,8 @@ export function produtosTableColumns(): ColumnDef<Produto | undefined>[] {
             dialogClassName="w-[30rem]"
             onClose={() => {
               if (cell.row.original?.id != undefined) {
-                deleteProduto(cell.row.original.id);
-                toast.loading("Excluindo produto...");
+                handleDeleteProduto(cell.row.original.id);
               }
-              setTimeout(() => {
-                window.location.reload();
-              }, 2500);
             }}
           >
             {"  "}
