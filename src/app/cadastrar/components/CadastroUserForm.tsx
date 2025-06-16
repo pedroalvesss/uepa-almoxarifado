@@ -89,7 +89,7 @@ export default function CadastroUserForm({
             Ja possui cadastro?{" "}
             <Link
               className="text-blue-500 hover:text-blue-700"
-              href={RoutePaths.CADASTRAR}
+              href={RoutePaths.LOGIN}
             >
               Realizar Login
             </Link>
