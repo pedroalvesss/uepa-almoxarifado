@@ -8,7 +8,11 @@ export function movimentacoesTableColumns(): ColumnDef<
     {
       accessorKey: "id",
       header: () => {
-        return <div className="flex justify-center text-center">ID</div>;
+        return (
+          <div className="flex justify-center text-center">
+            ID da Movimentação
+          </div>
+        );
       },
       cell: (cell) => (
         <div className="flex justify-center text-center">
@@ -69,7 +73,7 @@ export function movimentacoesTableColumns(): ColumnDef<
       cell: (cell) => {
         return (
           <div className="flex justify-center text-center">
-            {cell.row.original?.tipo}
+            {cell.row.original?.tipo === "s" ? "Saída" : "Entrada"}
           </div>
         );
       },
