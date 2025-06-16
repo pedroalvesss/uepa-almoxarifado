@@ -9,4 +9,10 @@ export const QUERY_KEYS = {
   PRODUTOS: {
     LIST: "produtos-list",
   },
+  USER: {
+    LIST: "user-list",
+  },
+  MOVIMENTACOES: {
+    LIST: "movimentacoes-list",
+  },
 };
