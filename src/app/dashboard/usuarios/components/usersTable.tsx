@@ -3,7 +3,7 @@ import { useDataTable } from "@/hooks/useDataTable";
 import { useUserListQuery } from "@/lib/hooks/service-hooks";
 import type { DataTableFilterField } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { ExporUsuario } from "@/types/userAuth";
 import { usersTableColumns } from "./tableColumns";
 import { deleteUser } from "@/services/user-service";
@@ -18,33 +18,36 @@ export function UsersTable({
   limit: number;
   currentPage?: number;
 }) {
-  const { data, error, isSuccess, isFetching, isRefetching } = useUserListQuery(
-    {
+  const { data, error, isSuccess, isFetching, isRefetching, refetch } =
+    useUserListQuery({
       search,
       limit,
       page: currentPage,
-    }
-  );
+    });
   const totalItems = data?.page?.total_items || 0;
   const totalPages = data?.page?.total_pages || 0;
-
-  const columns = useMemo(
-    () => usersTableColumns({ deleteUsuario: handleDelete }),
-    []
-  );
   const filterFields: DataTableFilterField<ExporUsuario>[] = [];
   const usuarios = data?.results || [];
 
-  async function handleDelete(id: string) {
-    try {
-      const response = await deleteUser(id);
-      if (!response) {
-        throw new Error("");
+  const handleDelete = useCallback(
+    async (id: string) => {
+      try {
+        const response = await deleteUser(id);
+        if (response) {
+          toast.success("Usuario deletado com sucesso!");
+          await refetch();
+        }
+      } catch (error) {
+        toast.error("Erro ao excluir usuario: " + error);
       }
-    } catch (error) {
-      toast.error("Erro ao excluir usuario" + error);
-    }
-  }
+    },
+    [refetch]
+  );
+
+  const columns = useMemo(
+    () => usersTableColumns({ deleteUsuario: handleDelete }),
+    [handleDelete]
+  );
 
   const { table } = useDataTable({
     data: usuarios,
