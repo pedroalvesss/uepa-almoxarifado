@@ -1,13 +1,17 @@
 import { Dialog } from "@/components/Dialog";
 import { Button } from "@/components/ui/button";
-import { deleteUser } from "@/services/user-service";
 import { ExporUsuario } from "@/types/userAuth";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Trash2 } from "lucide-react";
 import { redirect } from "next/navigation";
-import { toast } from "sonner";
 
-export function usersTableColumns(): ColumnDef<ExporUsuario | undefined>[] {
+interface usersTableColumnsProps {
+  deleteUsuario: (id: string) => Promise<void>;
+}
+
+export function usersTableColumns({
+  deleteUsuario,
+}: usersTableColumnsProps): ColumnDef<ExporUsuario | undefined>[] {
   return [
     {
       accessorKey: "id",
@@ -83,12 +87,8 @@ export function usersTableColumns(): ColumnDef<ExporUsuario | undefined>[] {
             dialogClassName="w-[30rem]"
             onClose={() => {
               if (cell.row.original?.id != undefined) {
-                deleteUser(cell.row.original.id);
-                toast.loading("Excluindo usuario...");
+                deleteUsuario(cell.row.original.id);
               }
-              setTimeout(() => {
-                window.location.reload();
-              }, 2500);
             }}
           >
             {"  "}
