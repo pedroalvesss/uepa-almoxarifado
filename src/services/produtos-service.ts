@@ -4,6 +4,7 @@ import {
   UniversalListParams,
   ProdutosListResponse,
   ErrorResponse,
+  MovimentacaoListResponse,
 } from "@/types/index";
 
 export async function getProdutosList(
@@ -29,6 +30,32 @@ export async function getProdutosList(
   }
 
   const data = (await response.json()) as ProdutosListResponse;
+  return data;
+}
+
+export async function getMovimentacaoList(
+  params: UniversalListParams
+): Promise<MovimentacaoListResponse> {
+  const query = new URLSearchParams();
+
+  if (params.search) query.append("search", params.search);
+  if (params.page) query.append("page", String(params.page));
+  if (params.limit) query.append("limit", String(params.limit));
+
+  const url = `https://api-estoque-7wp0.onrender.com/movimentacoes?${query.toString()}`;
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Erro ao buscar movimentacoes: ${response.status}`);
+  }
+
+  const data = (await response.json()) as MovimentacaoListResponse;
   return data;
 }
 
