@@ -120,9 +120,7 @@ export async function updateProduto(
   return await response.json();
 }
 
-export async function deleteProduto(
-  id: number | ErrorResponse
-): Promise<Produto> {
+export async function deleteProduto(id: number): Promise<Produto> {
   const response = await fetch(
     `https://api-estoque-7wp0.onrender.com/produtos/${id}`,
     {
