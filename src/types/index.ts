@@ -34,6 +34,25 @@ export type UniversalListParams = {
   limit?: number;
 };
 
+export type Movimentacao = {
+  id: number;
+  produtoid: number;
+  produtonome: string;
+  tipo: string;
+  quantidade: number;
+  datamovimentacao: Date;
+};
+
+export type MovimentacaoListResponse = {
+  results: Movimentacao[];
+  page: {
+    total_pages: number;
+    total_items: number;
+    next: string;
+    previous: string;
+  };
+};
+
 // Funcionalidades
 export interface SearchParams {
   [key: string]: string | string[] | undefined;
