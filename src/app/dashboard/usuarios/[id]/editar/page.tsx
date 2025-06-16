@@ -42,7 +42,7 @@ export default function Page() {
   }
 
   useEffect(() => {
-    if (!session?.data?.data?.user?.name == null) {
+    if (session?.data?.data?.user?.name == null) {
       router.replace(RoutePaths.LOGIN);
     }
   }, [session, router]);

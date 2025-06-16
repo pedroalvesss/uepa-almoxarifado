@@ -21,7 +21,7 @@ export default function Page() {
   const [search, setSearch] = useState<string>();
   const debouncedSetSearch = useDebounce(setSearch, 500);
 
-  if (!session?.data?.data?.user?.name == null) {
+  if (session?.data?.data?.user?.name == null) {
     redirect(RoutePaths.LOGIN);
   }
   const queryParams = tableSchema.parse(Object.fromEntries(searchParams));
