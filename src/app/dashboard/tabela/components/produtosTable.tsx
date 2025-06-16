@@ -3,8 +3,10 @@ import { useDataTable } from "@/hooks/useDataTable";
 import { useProdutosListQuery } from "@/lib/hooks/service-hooks";
 import type { DataTableFilterField, Produto } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { produtosTableColumns } from "./tableColumns";
+import { deleteProduto } from "@/services/produtos-service";
+import { toast } from "sonner";
 
 export function ProdutosTable({
   search,
@@ -15,7 +17,7 @@ export function ProdutosTable({
   limit: number;
   currentPage?: number;
 }) {
-  const { data, error, isSuccess, isFetching, isRefetching } =
+  const { data, error, isSuccess, isFetching, isRefetching, refetch } =
     useProdutosListQuery({
       search,
       limit,
@@ -23,10 +25,28 @@ export function ProdutosTable({
     });
   const totalItems = data?.page?.total_items || 0;
   const totalPages = data?.page?.total_pages || 0;
-
-  const columns = useMemo(() => produtosTableColumns(), []);
   const filterFields: DataTableFilterField<Produto>[] = [];
   const produtos = data?.results || [];
+
+  const handleDelete = useCallback(
+    async (id: number) => {
+      try {
+        const response = await deleteProduto(id);
+        if (response) {
+          toast.success("Produto deletado com sucesso!");
+          await refetch();
+        }
+      } catch (error) {
+        toast.error("Erro ao excluir produto: " + error);
+      }
+    },
+    [refetch]
+  );
+
+  const columns = useMemo(
+    () => produtosTableColumns({ handleDeleteProduto: handleDelete }),
+    [handleDelete]
+  );
 
   const { table } = useDataTable({
     data: produtos,
