@@ -5,6 +5,8 @@ export const RoutePaths = {
 
   DASHBOARD: "/dashboard",
 
+  MOVIMENTACOES: "/dashboard/movimentacao",
+
   CADASTRAR_PRODUTO: "/dashboard/tabela/cadastrar",
   EDITAR_PRODUTO: "/dashboard/tabela/{id}/editar",
 
