@@ -6,6 +6,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { ExporUsuario } from "@/types/userAuth";
 import { usersTableColumns } from "./tableColumns";
+import { deleteUser } from "@/services/user-service";
+import { toast } from "sonner";
 
 export function UsersTable({
   search,
@@ -26,9 +28,23 @@ export function UsersTable({
   const totalItems = data?.page?.total_items || 0;
   const totalPages = data?.page?.total_pages || 0;
 
-  const columns = useMemo(() => usersTableColumns(), []);
+  const columns = useMemo(
+    () => usersTableColumns({ deleteUsuario: handleDelete }),
+    []
+  );
   const filterFields: DataTableFilterField<ExporUsuario>[] = [];
   const usuarios = data?.results || [];
+
+  async function handleDelete(id: string) {
+    try {
+      const response = await deleteUser(id);
+      if (!response) {
+        throw new Error("");
+      }
+    } catch (error) {
+      toast.error("Erro ao excluir usuario" + error);
+    }
+  }
 
   const { table } = useDataTable({
     data: usuarios,
