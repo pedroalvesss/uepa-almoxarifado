@@ -68,7 +68,7 @@ export function Dialog({
         </DialogHeader>
         <div className="grid gap-4 py-4">{children}</div>
         {buttonActionTitle ? (
-          <DialogClose>
+          <DialogClose asChild>
             <DialogFooter>
               <Button
                 type="submit"
