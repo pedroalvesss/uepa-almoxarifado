@@ -53,7 +53,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
           },
           {
             title: "Movimentação",
-            url: RoutePaths.TABELA_PRODUTOS,
+            url: RoutePaths.MOVIMENTACOES,
           },
           {
             title: "Cadastrar",
