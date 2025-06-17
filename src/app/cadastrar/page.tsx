@@ -66,7 +66,10 @@ export default function Page() {
       <div className="flex w-full min-w-[30rem] flex-col items-center justify-center gap-4 rounded-md border bg-[#FFFFFF] p-6 text-center hover:shadow-xl lg:w-fit lg:max-w-[28rem] lg:items-start lg:justify-start ">
         <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-start">
           <Image alt="uepaLogo" src="/Brasao.png" width={40} height={40} />
-          <Separator orientation="vertical" className="bg-gray-300" />
+          <Separator
+            orientation="vertical"
+            className="hidden md:block bg-gray-300"
+          />
           <h2 className="font-semibold text-[1.1rem] text-gray-700 tracking-wide lg:text-[1.3rem]">
             Cadastro
           </h2>
