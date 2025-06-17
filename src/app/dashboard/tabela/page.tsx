@@ -11,13 +11,12 @@ import { z } from "zod";
 import { authClient } from "@/lib/auth-client";
 import { RoutePaths } from "@/utils/RoutePaths";
 
-export const tableSchema = z.object({
-  page: z.coerce.number().default(1),
-  size: z.coerce.number().optional(),
-  sort: z.string().optional(),
-});
-
 export default function Page() {
+  const tableSchema = z.object({
+    page: z.coerce.number().default(1),
+    size: z.coerce.number().optional(),
+    sort: z.string().optional(),
+  });
   const router = useRouter();
   const session = authClient.useSession();
   const searchParams = useSearchParams();

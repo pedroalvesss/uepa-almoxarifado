@@ -9,13 +9,12 @@ import { authClient } from "@/lib/auth-client";
 import { RoutePaths } from "@/utils/RoutePaths";
 import { UsersTable } from "./components/usersTable";
 
-export const tableSchema = z.object({
-  page: z.coerce.number().default(1),
-  size: z.coerce.number().optional(),
-  sort: z.string().optional(),
-});
-
 export default function Page() {
+  const tableSchema = z.object({
+    page: z.coerce.number().default(1),
+    size: z.coerce.number().optional(),
+    sort: z.string().optional(),
+  });
   const session = authClient.useSession();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState<string>();
